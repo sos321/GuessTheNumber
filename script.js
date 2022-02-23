@@ -2,7 +2,6 @@
 
 // Document elements
 const scoreEl = document.querySelector('.score');
-const message = document.querySelector('.message');
 const highscoreEl = document.querySelector('.highscore');
 const guess = document.querySelector('.guess');
 const btnCheck = document.querySelector('.check');
@@ -15,14 +14,14 @@ let highscore = highscoreEl.textContent;
 
 btnCheck.addEventListener('click', () => {
   if (isNaN(guess.value) || guess.value === '')
-    message.textContent = '⛔ Empty number field';
+    message.textContent = displayMessage('⛔ Empty number field');
   else {
     const guessNum = Number(guess.value);
 
     score--;
 
     if (score === 0) {
-      message.textContent = '💥 You lost!';
+      displayMessage('💥 You lost!');
 
       scoreEl.textContent = score;
 
@@ -31,9 +30,9 @@ btnCheck.addEventListener('click', () => {
 
     if (guessNum > 0 && guessNum < 21) {
       if (guessNum === secretNumber) win();
-      else if (guessNum > secretNumber) message.textContent = '⬇️ Too high';
-      else if (guessNum < secretNumber) message.textContent = '⬆️ Too low';
-    } else message.textContent = '⛔ Number must be between 1 and 20!';
+      else if (guessNum > secretNumber) displayMessage('⬇️ Too high');
+      else if (guessNum < secretNumber) displayMessage('⬆️ Too low');
+    } else displayMessage('⛔ Number must be between 1 and 20!');
   }
 
   updateScore();
@@ -44,7 +43,7 @@ btnAgain.addEventListener('click', () => {
   number.style.width = '15rem';
   number.textContent = '?';
   guess.value = '';
-  message.textContent = 'Start guessing...';
+  displayMessage('Start guessing...');
   document.querySelector('body').style.backgroundColor = '#222';
 
   score = 20;
@@ -53,7 +52,7 @@ btnAgain.addEventListener('click', () => {
 
 // Show win UI
 function win() {
-  message.textContent = '🎉 Correct Number!';
+  displayMessage('🎉 Correct Number!');
 
   document.querySelector('body').style.backgroundColor = '#60b347';
   number.textContent = secretNumber;
@@ -68,4 +67,9 @@ function win() {
 function updateScore() {
   scoreEl.textContent = score;
   highscoreEl.textContent = highscore;
+}
+
+// Display a message
+function displayMessage(message) {
+  document.querySelector('.message').textContent = message;
 }
